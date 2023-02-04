@@ -23,6 +23,11 @@ const Customer = Configs.define('__tbl_a_customers', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    photo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: ""
+    },
     email: {
         type: Sequelize.STRING,
         allowNull: false
