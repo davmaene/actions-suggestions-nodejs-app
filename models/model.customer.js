@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const Users = Configs.define('__tbl_a_customers', {
+const Customer = Configs.define('__tbl_a_customers', {
     fsname: {
         type: Sequelize.STRING,
         allowNull: false
@@ -14,7 +14,7 @@ const Users = Configs.define('__tbl_a_customers', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    nickname: {
+    username: { // this is always visible in the App
         type: Sequelize.STRING,
         allowNull: true,
         defaultValue: ""
@@ -57,11 +57,11 @@ const Users = Configs.define('__tbl_a_customers', {
     indexes: [
         {
             unique: true,
-            fields: ["email", "phone"]
+            fields: ["email", "phone", "username"]
         }
     ]
 });
 
 module.exports = {
-    Users
+    Customer
 }
