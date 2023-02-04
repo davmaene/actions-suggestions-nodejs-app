@@ -9,7 +9,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3900;
+const PORT = process.env.PORT || 4200;
 
 const limiter = rateLimit({
 	windowMs: parseFloat(process.env.MAX_TIME_RATE_LIMIT) * ( 60 * 1000 ),
