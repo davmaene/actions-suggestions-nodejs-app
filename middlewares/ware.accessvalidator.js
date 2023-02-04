@@ -9,6 +9,11 @@ const AccessValidator = async (req, res, next) => {
     }else return Response(res, 403, " Your don't have right access !")
 };
 
+const CustomerMiddleWare = async (req, res, next) => {
+
+};
+
 module.exports = {
-    AccessValidator
+    AccessValidator,
+    CustomerMiddleWare
 };
