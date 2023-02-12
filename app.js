@@ -4,6 +4,7 @@ const uploader = require("express-fileupload");
 const rateLimit = require("express-rate-limit");
 const { Response } = require("./helpers/helper.message");
 const dotenv = require("dotenv");
+const { Routes } = require("./routes");
 // # const { Routers } = require("./routes");
 
 dotenv.config();
@@ -37,12 +38,14 @@ app.get("/", (req, res, next) => {
     })
 });
 
-// # app.use("/api", Routers)
+// this api can change according to the version on this one
+app.use(`/api/${process.env.APIVERSION}`, Routes )
 
 app.use((req, res, next) => {
     return Response(res, 404, {
         message: "There is nothing over here !",
-        url: req.url
+        url: req.url,
+        apiversion: process.env.APIVERSION
     })
 });
 

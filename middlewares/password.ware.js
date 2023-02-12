@@ -6,7 +6,7 @@ const passwordChecker = async ({ plainchaine, cryptedchaine }, cb) => {
     if(varified) cb(undefined, true)
     else cb(true, undefined)
    } catch (error) {
-    cb(error, undefined)
+        cb(error, undefined)
    } 
 };
 
