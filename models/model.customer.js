@@ -41,15 +41,15 @@ const Customer = Configs.define('__tbl_a_customers', {
         type: Sequelize.TEXT,
         allowNull: false
     },
-    status: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 1
-    },
     isverified: {
         type: Sequelize.INTEGER,
         allowNull: true,
         defaultValue: 0
+    },
+    status: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1
     },
     createdon: {
         type: Sequelize.STRING,
