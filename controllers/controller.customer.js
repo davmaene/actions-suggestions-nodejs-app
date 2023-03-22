@@ -43,7 +43,7 @@ const controllerCustomer = {
                     phone: fillphone({ phone })
                 },
                 defaults: {
-                    // phone: fillphone({ phone }),
+                    phone: fillphone({ phone }),
                     ref,
                     password: pwd
                 }
@@ -93,18 +93,15 @@ const controllerCustomer = {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
                         return Response(res, 503, err)
                     })
                 }
             })
             .catch((err) => {
-                console.log(err);
                 return Response(res, 503, err)
             });
 
         } catch (error) {
-            console.log(error);
             return Response(res, 500, error)
         }
     },
