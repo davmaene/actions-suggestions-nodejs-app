@@ -78,7 +78,7 @@ const Response = (res, status, body) => {
             case 503: 
             res.status(503).json({
                 status: 503,
-                message: "Duplicate entry in TABLE",
+                message: "A SQL Error occured right now !",
                 data: body ? body : {}
             })
             break;

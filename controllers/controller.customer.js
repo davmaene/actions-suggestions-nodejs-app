@@ -41,13 +41,10 @@ const controllerCustomer = {
 
             await Customer.findOrCreate({
                 where: {
-                    [Op.or]: [
-                        { phone: fillphone({ phone }) },
-                        // { username: phone.toString().toLowerCase() }
-                    ]
+                    phone: fillphone({ phone })
                 },
                 defaults: {
-                    phone,
+                    // phone: fillphone({ phone }),
                     ref,
                     password: pwd
                 }
@@ -67,7 +64,7 @@ const controllerCustomer = {
                         idcustomer: ref
                     })
                     .then(extras => {
-                        return Response(res, 200, { customer, code: verificationCode })
+                        return Response(res, 200, { customer, code: verificationCode, isnew })
                     })
                     .catch(err => {
                         return Response(res, 503, err)
@@ -75,15 +72,29 @@ const controllerCustomer = {
 
                 }else{
 
-                    Extrasinfos.update({
+                    Extrasinfos.findOne({
                         where: {
-                            ref: customer && customer['ref']
+                            idcustomer: customer && customer['ref']
                         }
                     })
-                    .then(U => {
-                        return Response(res, 200, { customer, code: verificationCode })
+                    .then(extras => {
+                        if(extras instanceof Extrasinfos){
+
+                            extras.update({
+                                verificationcode: verificationCode
+                            })
+                            .then(U => {
+                                return Response(res, 200, { customer, code: verificationCode, isnew })
+                            })
+                            .catch(er => {
+                                return Response(res, 503, er)
+                            })
+                        }else{
+                            return Response(res, 400, extras )
+                        }
                     })
                     .catch(err => {
+                        console.log(err);
                         return Response(res, 503, err)
                     })
                 }
