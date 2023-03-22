@@ -7,8 +7,23 @@ const { randomLongNumber } = require("../helpers/helper.random");
 const { v4: uuidv4 } = require('uuid');
 
 const controllerCustomer = {
+    
     list: async (req, res, next) => {
-
+        try {
+            await Customer.findAndCountAll({
+                where: {
+                    status: 1
+                }
+            })
+            .then(({ count, rows }) => {
+                return Response(res, 200, { length: count, rows })
+            })
+            .catch(err => {
+                return Response(res, 503, err)
+            })
+        } catch (error) {
+            return Response(res, 500, error)
+        }
     },
 
     auth: async (req, res, next) => {
@@ -16,13 +31,12 @@ const controllerCustomer = {
         const { phone, flag, name, region, subregion, callingCode, cca2, currency } = req.body;
         if(!phone) return Response(res, 401, "This request must have at least phone number !");
         
-        const uuid = "";
         const verificationCode = randomLongNumber({ length: 6 });
         const ref = uuidv4();
         const pwd = await passwordCrypter({ plainchaine: '123456', salt: 10 });
 
         try {
-            await Customer.findOneCreate({
+            await Customer.findOrCreate({
                 where: {
                     [Op.or]: [
                         { phone: fillphone({ phone }) },
@@ -43,10 +57,12 @@ const controllerCustomer = {
                 }
             })
             .catch((err) => {
+                console.log(err);
                 return Response(res, 503, err)
             });
 
         } catch (error) {
+            console.log(error);
             return Response(res, 500, error)
         }
     },
