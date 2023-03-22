@@ -1,7 +1,6 @@
 const { Response } = require("../helpers/helper.message");
 const { Customer } = require("../models/model.customer");
 const { Op } = require("sequelize");
-const sequelize = require("sequelize");
 const { fillphone } = require("../helpers/helper.fillphonenumber");
 const { passwordChecker, passwordCrypter } = require("../middlewares/password.ware");
 const { randomLongNumber } = require("../helpers/helper.random");
