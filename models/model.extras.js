@@ -5,52 +5,43 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-// {
-//     "callingCode": [
-//       "243",
-//     ],
-//     "cca2": "CD",
-//     "currency": [
-//       "CDF",
-//     ],
-//     "flag": "flag-cd",
-//     "name": "DR Congo",
-//     "region": "Africa",
-//     "subregion": "Middle Africa",
-// }
-
-const Extrasinfos = Configs.define('__tbl_a_customers', {
+const Extrasinfos = Configs.define('__tbl_a_extrasinfos', {
     callingcode: {
-        type: Sequelize.ARRAY,
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: []
+        defaultValue: process.env.APPESCAPESTRING
+    },
+    verificationcode: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: process.env.APPESCAPESTRING
     },
     currency: { // this is always visible in the App
-        type: Sequelize.ARRAY,
+        type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: []
+        defaultValue: process.env.APPESCAPESTRING
     },
     flag: {
         type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: ""
+        defaultValue: process.env.APPESCAPESTRING
     },
     countrycode: {
-        type: Sequelize.ARRAY,
+        type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: []
+        defaultValue: process.env.APPESCAPESTRING
     },
     region: {
         type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: ""
+        defaultValue: process.env.APPESCAPESTRING
     },
     subregion: {
         type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: ""
+        defaultValue: process.env.APPESCAPESTRING
     },
-    idcustomer: {
+    idcustomer: { // refer to ref in table customer
         type: Sequelize.INTEGER,
         allowNull: true,
         defaultValue: 0

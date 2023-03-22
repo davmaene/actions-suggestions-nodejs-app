@@ -1,13 +1,15 @@
 const { Response } = require("../helpers/helper.message");
 const { Customer } = require("../models/model.customer");
 const { Op } = require("sequelize");
+const sequelize = require("sequelize");
 const { fillphone } = require("../helpers/helper.fillphonenumber");
 const { passwordChecker, passwordCrypter } = require("../middlewares/password.ware");
 const { randomLongNumber } = require("../helpers/helper.random");
 const { v4: uuidv4 } = require('uuid');
+const { Extrasinfos } = require("../models/model.extras");
 
 const controllerCustomer = {
-    
+
     list: async (req, res, next) => {
         try {
             await Customer.findAndCountAll({
@@ -36,6 +38,7 @@ const controllerCustomer = {
         const pwd = await passwordCrypter({ plainchaine: '123456', salt: 10 });
 
         try {
+
             await Customer.findOrCreate({
                 where: {
                     [Op.or]: [
@@ -49,11 +52,40 @@ const controllerCustomer = {
                     password: pwd
                 }
             })
-            .then(([customer, isnew]) => {
+            .then(([ customer, isnew ]) => {
+
                 if(isnew){
-                    return Response(res, 200, customer)
+
+                    Extrasinfos.create({
+                        verificationcode: verificationCode,
+                        callingcode: callingCode.toString(),
+                        currency: currency.toString(),
+                        flag,
+                        countrycode: cca2.toString(),
+                        region,
+                        subregion,
+                        idcustomer: ref
+                    })
+                    .then(extras => {
+                        return Response(res, 200, { customer, code: verificationCode })
+                    })
+                    .catch(err => {
+                        return Response(res, 503, err)
+                    })
+
                 }else{
-                    return Response(res, 201, customer)
+
+                    Extrasinfos.update({
+                        where: {
+                            ref: customer && customer['ref']
+                        }
+                    })
+                    .then(U => {
+                        return Response(res, 200, { customer, code: verificationCode })
+                    })
+                    .catch(err => {
+                        return Response(res, 503, err)
+                    })
                 }
             })
             .catch((err) => {
