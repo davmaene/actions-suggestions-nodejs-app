@@ -110,8 +110,13 @@ const controllerCustomer = {
         }
     },
 
-    signUp: async (req, res, next) => {
-        
+    resendverificationcode: async (req, res, next) => {
+        const { phpne, ref } = req.body;
+        try {
+            
+        } catch (error) {
+            return Response(res, 500, error)
+        }
     }
 }
 
