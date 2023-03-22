@@ -43,7 +43,7 @@ const controllerCustomer = {
                     phone: fillphone({ phone })
                 },
                 defaults: {
-                    // phone: fillphone({ phone }),
+                    phone: fillphone({ phone }),
                     ref,
                     password: pwd
                 }
