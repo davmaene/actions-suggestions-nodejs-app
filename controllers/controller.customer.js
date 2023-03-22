@@ -2,45 +2,48 @@ const { Response } = require("../helpers/helper.message");
 const { Customer } = require("../models/model.customer");
 const { Op } = require("sequelize");
 const { fillphone } = require("../helpers/helper.fillphonenumber");
-const { passwordChecker } = require("../middlewares/password.ware");
+const { passwordChecker, passwordCrypter } = require("../middlewares/password.ware");
+const { randomLongNumber } = require("../helpers/helper.random");
+const { v4: uuidv4 } = require('uuid');
 
 const controllerCustomer = {
     list: async (req, res, next) => {
 
     },
 
-    signIn: async (req, res, next) => {
+    auth: async (req, res, next) => {
 
-        const { username, password } = req.body;
-        if(!username || !password) return Response(res, 401, "This request must have at least username and password !");
+        const { phone, flag, name, region, subregion, callingCode, cca2, currency } = req.body;
+        if(!phone) return Response(res, 401, "This request must have at least phone number !");
+        
+        const uuid = "";
+        const verificationCode = randomLongNumber({ length: 6 });
+        const ref = uuidv4();
+        const pwd = await passwordCrypter({ plainchaine: '123456', salt: 10 });
 
         try {
-            await Customer.findOne({
+            await Customer.findOneCreate({
                 where: {
                     [Op.or]: [
-                        { phone: fillphone({ phone: username.toString() }) },
-                        { username: username.toString().toLowerCase() }
+                        { phone: fillphone({ phone }) },
+                        // { username: phone.toString().toLowerCase() }
                     ]
+                },
+                defaults: {
+                    phone,
+                    ref,
+                    password: pwd
                 }
             })
-            .then((customer) => {
-                if(customer instanceof Customer){
-                    passwordChecker({
-                        plainchaine: password,
-                        cryptedchaine: customer.password
-                    }, (err, matched) => {
-                        if(matched){
-                            return Response(res, 200, customer)
-                        }else{
-                            return Response(res, 203, "Login failed !")
-                        }
-                    })
+            .then(([customer, isnew]) => {
+                if(isnew){
+                    return Response(res, 200, customer)
                 }else{
-                    return Response(res, 203, "Login failed !")
+                    return Response(res, 201, customer)
                 }
             })
             .catch((err) => {
-                
+                return Response(res, 503, err)
             });
 
         } catch (error) {

@@ -6,40 +6,50 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const Customer = Configs.define('__tbl_a_customers', {
+    ref: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: process.env.APPESCAPESTRING
+    },
     fsname: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: process.env.APPESCAPESTRING
     },
     lsname: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: process.env.APPESCAPESTRING
     },
     username: { // this is always visible in the App
         type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: ""
+        defaultValue: process.env.APPESCAPESTRING
     },
     phone: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: process.env.APPESCAPESTRING
     },
     photo: {
         type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: ""
+        allowNull: true,
+        defaultValue: process.env.APPESCAPESTRING
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: process.env.APPESCAPESTRING
     },
     token: {
         type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: ""
+        defaultValue: process.env.APPESCAPESTRING
     },
     password: {
         type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: true,
+        defaultValue: process.env.APPESCAPESTRING
     },
     isverified: {
         type: Sequelize.INTEGER,
